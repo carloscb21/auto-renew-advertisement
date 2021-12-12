@@ -1,5 +1,5 @@
 import time
-
+from datetime import datetime
 from flask import Flask, request, send_file
 from browser_options import get_basic_setup
 from selenium import webdriver
@@ -16,7 +16,7 @@ driver_path = browser_setup.driver_path
 app = Flask(__name__, static_url_path="")
 
 with app.app_context():
-    driver = webdriver.Chrome(executable_path=str(Path().absolute())+driver_path, options=options)
+    driver = webdriver.Chrome(executable_path=str(Path().absolute()) + driver_path, options=options)
     flag = True
     server_status = ""
 
@@ -55,14 +55,18 @@ def stop():
 
 @app.route('/startAdvertisement')
 def start_advertisement():
-    timming = int(request.args.get(properties.label_timming))
-    number_list = len(driver.find_elements_by_class_name(properties.list_items))-1
-    # driver.find_elements_by_xpath(properties.renew_item)[number_list].click()
+    """
+        Start auto renew advertisement
+    """
+    timming = properties.timeHour * int(request.args.get(properties.label_timming))
+    number_list = len(driver.find_elements_by_class_name(properties.list_items)) - 1
     while flag:
         try:
-            time.sleep(properties.timeHour * timming)
+            print("Wait " + str(timming) + " seconds")
+            time.sleep(timming)
             driver.refresh()
             driver.find_elements_by_xpath(properties.renew_item)[number_list].click()
+            get_current_time()
             return server_status
         except ElementNotInteractableException:
             print("Error ElementNotInteractableException")
@@ -74,4 +78,9 @@ def start_advertisement():
             print("Error NoSuchElementException")
 
 
-
+def get_current_time():
+    """
+        Get Current date to register update advertisement
+    """
+    now = datetime.now()
+    print("Renew advertisement at: " + now.strftime("%d/%m/%Y %H:%M:%S"))
