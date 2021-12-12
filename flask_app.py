@@ -66,6 +66,7 @@ def start_advertisement():
             print("Wait " + str(timming) + " seconds")
             time.sleep(timming)
             driver.refresh()
+            time.sleep(4)
             driver.find_elements_by_xpath(properties.renew_item)[number_list].click()
             get_current_time()
             return server_status
