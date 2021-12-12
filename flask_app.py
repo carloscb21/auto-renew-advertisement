@@ -62,6 +62,7 @@ def start_advertisement():
     number_list = len(driver.find_elements_by_class_name(properties.list_items)) - 1
     while flag:
         try:
+            get_current_time()
             print("Wait " + str(timming) + " seconds")
             time.sleep(timming)
             driver.refresh()
