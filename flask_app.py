@@ -60,17 +60,21 @@ def start_advertisement():
     """
     timming = properties.timeHour * int(request.args.get(properties.label_timming))
     number_list = len(driver.find_elements_by_class_name(properties.list_items)) - 1
+    get_current_time()
     while flag:
         try:
-            get_current_time()
-            print("Wait " + str(timming) + " seconds")
-            time.sleep(timming)
+            print("---------------------")
+            for i in range(int(timming/60)-1):
+                print("It pass " + str(i) + " minutes")
+                time.sleep(60)
             driver.refresh()
-            time.sleep(4)
+            time.sleep(10)
             driver.find_elements_by_xpath(properties.renew_item)[number_list].click()
             get_current_time()
-            return server_status
+            print("---------------------")
         except ElementNotInteractableException:
+            time.sleep(5)
+            driver.find_elements_by_xpath(properties.renew_item)[number_list-1].click()
             print("Error ElementNotInteractableException")
         except IndexError:
             print("Error IndexError")
