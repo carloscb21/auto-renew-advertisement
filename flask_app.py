@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 from flask import Flask, request, send_file
 from browser_options import get_basic_setup
-from selenium import webdriver
+import undetected_chromedriver as uc
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException, \
     StaleElementReferenceException
 from pathlib import Path
@@ -16,8 +16,8 @@ driver_path = browser_setup.driver_path
 app = Flask(__name__, static_url_path="")
 
 with app.app_context():
-    driver = webdriver.Chrome(executable_path=str(Path().absolute()) + driver_path, options=options)
-
+    driver = uc.Chrome()
+    # driver = webdriver.Chrome(executable_path=str(Path().absolute()) + driver_path, options=options)
     flag = True
     server_status = ""
 
