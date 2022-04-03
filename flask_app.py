@@ -17,6 +17,7 @@ app = Flask(__name__, static_url_path="")
 
 with app.app_context():
     driver = webdriver.Chrome(executable_path=str(Path().absolute()) + driver_path, options=options)
+
     flag = True
     server_status = ""
 
